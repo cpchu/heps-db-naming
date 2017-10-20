@@ -6,10 +6,12 @@
 package heps.db.naming.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,8 +39,8 @@ public class Device implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "device_id")
     private Integer deviceId;
     @Size(max = 45)
@@ -48,17 +49,17 @@ public class Device implements Serializable {
     @Size(max = 45)
     @Column(name = "instance")
     private String instance;
-    @JoinColumn(name = "system", referencedColumnName = "system_id")
-    @ManyToOne(optional = false)
-    private System system;
-    @JoinColumn(name = "subsystem", referencedColumnName = "subsystem_id")
-    @ManyToOne
-    private Subsystem subsystem;
     @JoinColumn(name = "device_type", referencedColumnName = "deviceType_id")
     @ManyToOne
     private DeviceType deviceType;
+    @JoinColumn(name = "subsystem", referencedColumnName = "subsystem_id")
+    @ManyToOne
+    private Subsystem subsystem;
+    @JoinColumn(name = "system", referencedColumnName = "system_id")
+    @ManyToOne(optional = false)
+    private System system;
     @OneToMany(mappedBy = "device")
-    private Collection<Signal> signalCollection;
+    private List<Signal> signalList;
 
     public Device() {
     }
@@ -91,12 +92,12 @@ public class Device implements Serializable {
         this.instance = instance;
     }
 
-    public System getSystem() {
-        return system;
+    public DeviceType getDeviceType() {
+        return deviceType;
     }
 
-    public void setSystem(System system) {
-        this.system = system;
+    public void setDeviceType(DeviceType deviceType) {
+        this.deviceType = deviceType;
     }
 
     public Subsystem getSubsystem() {
@@ -107,21 +108,21 @@ public class Device implements Serializable {
         this.subsystem = subsystem;
     }
 
-    public DeviceType getDeviceType() {
-        return deviceType;
+    public System getSystem() {
+        return system;
     }
 
-    public void setDeviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
+    public void setSystem(System system) {
+        this.system = system;
     }
 
     @XmlTransient
-    public Collection<Signal> getSignalCollection() {
-        return signalCollection;
+    public List<Signal> getSignalList() {
+        return signalList;
     }
 
-    public void setSignalCollection(Collection<Signal> signalCollection) {
-        this.signalCollection = signalCollection;
+    public void setSignalList(List<Signal> signalList) {
+        this.signalList = signalList;
     }
 
     @Override

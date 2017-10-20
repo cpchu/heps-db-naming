@@ -6,16 +6,17 @@
 package heps.db.naming.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -36,18 +37,18 @@ public class SignalType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "signalType_id")
     private Integer signalTypeid;
     @Size(max = 45)
-    @Column(name = "signalType")
+    @Column(name = "signal_type")
     private String signalType;
     @Size(max = 45)
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "signalType")
-    private Collection<Signal> signalCollection;
+    private List<Signal> signalList;
 
     public SignalType() {
     }
@@ -81,12 +82,12 @@ public class SignalType implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Signal> getSignalCollection() {
-        return signalCollection;
+    public List<Signal> getSignalList() {
+        return signalList;
     }
 
-    public void setSignalCollection(Collection<Signal> signalCollection) {
-        this.signalCollection = signalCollection;
+    public void setSignalList(List<Signal> signalList) {
+        this.signalList = signalList;
     }
 
     @Override

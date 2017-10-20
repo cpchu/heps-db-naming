@@ -6,16 +6,17 @@
 package heps.db.naming.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -36,18 +37,18 @@ public class DeviceType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "deviceType_id")
     private Integer deviceTypeid;
     @Size(max = 45)
-    @Column(name = "deviceType")
+    @Column(name = "device_type")
     private String deviceType;
     @Size(max = 45)
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "deviceType")
-    private Collection<Device> deviceCollection;
+    private List<Device> deviceList;
 
     public DeviceType() {
     }
@@ -81,12 +82,12 @@ public class DeviceType implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Device> getDeviceCollection() {
-        return deviceCollection;
+    public List<Device> getDeviceList() {
+        return deviceList;
     }
 
-    public void setDeviceCollection(Collection<Device> deviceCollection) {
-        this.deviceCollection = deviceCollection;
+    public void setDeviceList(List<Device> deviceList) {
+        this.deviceList = deviceList;
     }
 
     @Override
